@@ -1,31 +1,39 @@
 import * as actionType from "./action-types";
 
-export const getImageAction = () =>{
+export const getImageAction = () => {
     return {
-    type:actionType.GET_IMAGE
+        type: actionType.GET_IMAGE
     }
 }
 
-export const likeImageAction = () =>{
+export const likeImageAction = () => {
     return {
-        type:actionType.LIKE_IMAGE
+        type: actionType.LIKE_IMAGE
     }
 }
 
-export const dislikeImageAction = () =>{
+export const dislikeImageAction = () => {
     return {
-        type:actionType.DISLIKE_IMAGE
+        type: actionType.DISLIKE_IMAGE
     }
 }
 
-export const finishUnsplashImageAction=()=>{
+export const finishUnsplashImageAction = () => {
     return {
-        type:actionType.FINISH_UNSPLASH_IMAGE
+        type: actionType.FINISH_UNSPLASH_IMAGE
     }
 }
 
-export const resetAllStateAction=()=>{
+export const resetAllStateAction = () => {
     return {
-        type:actionType.RESET_ALL_STATE
+        type: actionType.RESET_ALL_STATE
+    }
+}
+
+export const setCurrentUserAction = (email) => {
+    return {
+        type: actionType.SET_CURRENT_USER,
+        email: email,
+
     }
 }

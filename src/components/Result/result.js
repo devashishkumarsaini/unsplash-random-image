@@ -35,6 +35,33 @@ const Result = (props) => {
                             <p data-testid="total-like">Total Likes : {props.totalLike}</p>
                             <p data-testid="total-dislike">Total Dislikes : {props.totalDislike}</p>
                         </div>
+                        <Link to="/">
+                            <button data-testid="finish-button" style={styles.button}>Play Again !</button>
+                        </Link>
+                        <div style={{ margin: '30px 0', height: "150px", width: "600px" }}>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style={{ width: "200px" }}>User Email</th>
+                                        <th style={{ width: "200px" }}>Total Likes</th>
+                                        <th style={{ width: "200px" }}>Total Dislikes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        props.userList.map((data) => (
+                                            <tr key={data.email}>
+                                                {console.log(data)}
+                                                <td>{data.userEmail}</td>
+                                                <td>{data.like}</td>
+                                                <td>{data.dislike}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                     :
                     <div data-testid="sorry-message">
@@ -54,7 +81,8 @@ const MapStateToProps = (state) => {
     return {
         totalLike: state.totalLike,
         totalDislike: state.totalDislike,
-        finish: state.finish
+        finish: state.finish,
+        userList: state.userList,
     }
 }
 

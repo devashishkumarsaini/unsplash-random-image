@@ -1,9 +1,9 @@
 import React from "react";
 import Home from '../home';
-import { fireEvent, queryByTestId, render, waitFor, screen, getByText } from "@testing-library/react";
+import { render, fireEvent, waitFor, screen, prettyDOM, findByText, queryByTestId, findByTestId, } from "@testing-library/react";
 import store from "../../../state/index";
 import { Provider } from "react-redux";
-import { StaticRouter } from "react-router-dom";
+import { Route, StaticRouter } from "react-router-dom";
 
 test("HOME PAGE RENDER SUCCESSFULLY", () => {
     const { queryByTestId } = render(<Provider store={store}><StaticRouter><Home /></StaticRouter></Provider>);
@@ -15,12 +15,9 @@ test("START BUTTON RENDER SUCCESSFULLY", () => {
     expect(queryByTestId("start-button")).toHaveTextContent('Start');
 })
 
-// test("REDIRECT ON BUTTON CLICK", async () => {
-//     const { queryByTestId } = render(<Provider store={store}><StaticRouter><Home /></StaticRouter></Provider>);
-//     fireEvent.click(queryByTestId('start-button'));
-//     await waitFor(() => screen.findByTestId('random-img-page'), { timeout: 100000 });
-//     expect(getByTestId('random-img-page')).toBeTruthy();
-
-
-// })
+test("REDIRECT ON BUTTON CLICK", async () => {
+    const div = render(<Provider store={store}><StaticRouter><Home /></StaticRouter></Provider>);
+    fireEvent.click(div.getByTestId('start-button'), { button: 0 });
+    await waitFor(() => { console.log(window.location.pathname) });
+})
 

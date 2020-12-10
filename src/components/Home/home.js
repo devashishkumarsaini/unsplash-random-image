@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getImageAction, resetAllStateAction } from "../../state/actions/action";
+import { Link, StaticRouter } from 'react-router-dom';
+import { getImageAction, resetAllStateAction, setCurrentUserAction } from "../../state/actions/action";
 
 const styles = {
     container: {
@@ -26,27 +26,63 @@ const styles = {
 
 const Home = (props) => {
 
+    const [userCurrentEmail, setCurrentUserEmail] = useState('');
+
     useEffect(() => {
         props.resetAllState();
     }, [])
 
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+        props.setCurrentUser(userCurrentEmail);
+
+    }
+
+    const handleEmailOnChange = (e) => {
+        setCurrentUserEmail(e.target.value);
+    }
+
 
     return (
         <div style={styles.container} data-testid="home-page">
-            <Link to="/randomimage">
-                <button data-testid="start-button" style={styles.button} onClick={() => props.getImage()}>
-                    Start
-            </button>
-            </Link>
+            {
+                props.currentUser === '' &&
+                <div>
+                    <p>Enter Your Email:</p>
+                    <form onSubmit={handleOnSubmit}>
+                        <input type="email" name="userCurrentEmail" value={userCurrentEmail} onChange={handleEmailOnChange} placeholder="Enter Your Email" />
+                        <button type="submit">Submit</button>
+                        <br />
+                        <small style={{ color: "grey" }}>Please enter unique email.</small>
+                    </form>
+                </div>
+            }
+            {
+                props.currentUser !== '' &&
+                <div>
+                    <p>{`Welcome ${props.currentUser} !`}</p>
+                    <Link to="/randomimage">
+                        <button data-testid="start-button" style={styles.button} onClick={() => props.getImage()}>
+                            Start
+                    </button>
+                    </Link>
+                </div>
+            }
         </div>
     )
 }
 
+const MapStateToProps = (state) => {
+    return {
+        currentUser: state.currentUser,
+    }
+}
 const MapDispatchToProps = (dispatch) => {
     return {
         resetAllState: () => dispatch(resetAllStateAction()),
-        getImage: () => dispatch(getImageAction())
+        getImage: () => dispatch(getImageAction()),
+        setCurrentUser: (email) => dispatch(setCurrentUserAction(email)),
     }
 }
 
-export default connect(null, MapDispatchToProps)(Home);
+export default connect(MapStateToProps, MapDispatchToProps)(Home);
